@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-ruby '1.9.3'
+ruby '2.2.2'
 gem 'rails', '4.2.4'
 # Use sqlite3 as the database for Active Record
 # Use SCSS for stylesheets
@@ -21,7 +21,7 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-
+gem 'rails-ujs'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -34,7 +34,7 @@ gem 'jbuilder', '~> 2.0'
 
 group :development, :test do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
-  gem 'debugger'
+  # gem 'debugger'
 end
 
 group :development do
@@ -46,7 +46,8 @@ group :development do
 end
 
 
-gem 'bootstrap', '~> 4.0.0.alpha3.1'
+#gem 'bootstrap', '~> 4.0.0.alpha3.1'
+gem 'bootstrap-sass'
 gem 'devise'
 gem 'devise_invitable'
 gem 'haml-rails'
@@ -54,6 +55,8 @@ gem 'high_voltage'
 gem 'pg'
 gem 'unicorn'
 gem 'unicorn-rails'
+gem 'sqlite3'
+gem 'finance'
 
 group :development do
   gem 'better_errors'

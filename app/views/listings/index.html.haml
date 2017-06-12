@@ -1,0 +1,50 @@
+%h1 Listing listings
+
+= form_tag listings_path, :method => :get do
+  = text_field_tag :search, params[:search]
+  = submit_tag "search", :name => nil
+        
+
+%table
+  %thead
+    %tr
+      %th Address
+      %th Beds
+      %th Baths
+      %th Parking
+      %th Square footage
+      %th Year built
+      %th Listing date
+      %th Asking price
+      %th Parking price
+      %th Condo fees
+      %th Property tax
+      %th Utility cost
+      %th Rent amount
+      %th
+      %th
+      %th
+
+  %tbody
+    - @listings.each do |listing|
+      %tr
+        %td= listing.address
+        %td= listing.beds
+        %td= listing.baths
+        %td= listing.parking
+        %td= listing.square_footage
+        %td= listing.year_built
+        %td= listing.listing_date
+        %td= listing.asking_price
+        %td= listing.parking_price
+        %td= listing.condo_fees
+        %td= listing.property_tax
+        %td= listing.utility_cost
+        %td= listing.rent_amount
+        %td= link_to 'Show', listing
+        %td= link_to 'Edit', edit_listing_path(listing)
+        %td= link_to 'Destroy', listing, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Listing', new_listing_path

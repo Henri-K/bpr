@@ -1,0 +1,76 @@
+%h3 
+  %u Section 1
+
+%p
+  %b Address:
+  = @listing.address
+%p
+  %b Beds:
+  = @listing.beds
+%p
+  %b Baths:
+  = @listing.baths
+%p
+  %b Parking:
+  = @listing.parking
+%p
+  %b Square footage:
+  = @listing.square_footage
+%p
+  %b Year built:
+  = @listing.year_built
+%p
+  %b Days on Market:
+  = @listing.days_on_market
+  
+%h3 
+  %u Section 2
+
+%p
+  %b Asking price:
+  = @listing.asking_price
+%p
+  %b Price of Parking:
+  = @listing.parking_price
+%p
+  %b Price with no parking:
+  = @listing.no_parking_price
+%br
+
+%p
+  %b Condo fees:
+  = @listing.condo_fees
+%p
+  %b Property tax:
+  = @listing.property_tax
+%p
+  %b Utility cost:
+  = @listing.utility_cost
+%p
+  %b Mortgage Payment:
+  = @mortgage_payment
+%p
+  %b Total Monthly Cost:
+  = @total_monthly_cost
+%br
+
+%p
+  %b Price per Square Foot:
+  = @listing.price_per_sq_ft
+%br
+%p
+  %b Estimated Rental Amount:
+  = @listing.rent_amount
+%br
+%p
+  %b Cash Flow:
+  = @cash_flow
+  
+- @listing.pictures.each do |pic|
+  %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
+  
+  
+  
+= link_to 'Edit', edit_listing_path(@listing)
+\|
+= link_to 'Back', listings_path

@@ -1,0 +1,54 @@
+= form_for @listing do |f|
+  - if @listing.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@listing.errors.count, "error")} prohibited this listing from being saved:"
+      %ul
+        - @listing.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :address
+    = f.text_field :address
+  .field
+    = f.label :beds
+    = f.number_field :beds
+  .field
+    = f.label :baths
+    = f.number_field :baths
+  .field
+    = f.label :parking
+    = f.number_field :parking
+  .field
+    = f.label :square_footage
+    = f.number_field :square_footage
+  .field
+    = f.label :year_built
+    = f.number_field :year_built
+  .field
+    = f.label :listing_date
+    = f.date_select :listing_date
+  .field
+    = f.label :asking_price
+    = f.number_field :asking_price
+  .field
+    = f.label :parking_price
+    = f.number_field :parking_price
+  .field
+    = f.label :condo_fees
+    = f.number_field :condo_fees
+  .field
+    = f.label :property_tax
+    = f.number_field :property_tax
+  .field
+    = f.label :utility_cost
+    = f.number_field :utility_cost
+  .field
+    = f.label :rent_amount
+    = f.number_field :rent_amount
+    
+  Pictures
+  = f.fields_for :pictures do |ff|
+    = render 'picture_fields', f: ff
+  = link_to_add_fields "Add Picture", f, :pictures
+  .actions
+    = f.submit 'Save'

@@ -1,0 +1,12 @@
+= f.fields_for :pictures do |ff|
+
+  .field
+    = ff.label :url
+    = ff.text_field :url
+  .field
+    = ff.label :caption
+    = ff.text_field :caption
+  .field
+    - if ff.object.persisted?
+      = ff.check_box :_destroy
+      = ff.label :_destroy, "Delete"
