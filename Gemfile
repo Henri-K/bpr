@@ -22,6 +22,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'rails-ujs'
+gem 'faker'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -70,7 +71,7 @@ end
 
 group :development, :test do
   gem 'factory_girl_rails'
-  gem 'faker'
+  #gem 'faker'
   gem 'rspec-rails'
 end
 
