@@ -10,9 +10,9 @@ class ListingsController < ApplicationController
   # GET /listings/1
   # GET /listings/1.json
   def show
-    @mortgage_payment = @listing.mortgage_payment(nil, nil)
-    @total_monthly_cost = @listing.total_monthly_cost(@mortgage_payment)
-    @cash_flow = @listing.cash_flow(@total_monthly_cost)
+    @mortgage_payment = @listing.mortgage_payment(nil, nil, nil)
+    @total_monthly_cost = @listing.total_monthly_cost(nil, nil, nil)
+    @cash_flow = @listing.cash_flow(nil, nil, nil)
   end
 
   # GET /listings/new

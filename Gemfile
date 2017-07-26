@@ -55,7 +55,6 @@ gem 'high_voltage'
 gem 'pg'
 gem 'unicorn'
 gem 'unicorn-rails'
-gem 'sqlite3'
 gem 'finance'
 
 group :development do

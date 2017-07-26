@@ -1,5 +1,6 @@
 class Listing < ActiveRecord::Base
     has_many :pictures
+    has_many :showings
     
     accepts_nested_attributes_for :pictures, 
                                   :allow_destroy => true, 
@@ -46,8 +47,8 @@ class Listing < ActiveRecord::Base
         end
     end
     
-    def mortgage_payment(rate, amourt)
-        principle = self.asking_price
+    def mortgage_payment(deposit, rate, amourt)
+        principle = self.asking_price - deposit ||= 0
         return 0 unless principle > 0
         compound = 2.0
         rate ||= 0.04
@@ -58,8 +59,8 @@ class Listing < ActiveRecord::Base
         ((numerator/denominator) * principle).round(2)
     end
     
-    def total_monthly_cost(mortgage_payment)
-        utility_cost + condo_fees + property_tax + mortgage_payment
+    def total_monthly_cost(deposit, rate, amourt)
+        utility_cost + condo_fees + property_tax + mortgage_payment(deposit, rate, amourt)
     end
     
     def price_per_sq_ft
@@ -67,7 +68,7 @@ class Listing < ActiveRecord::Base
         no_parking_price/square_footage
     end
     
-    def cash_flow(total_monthly_cost)
-       rent_amount - total_monthly_cost
+    def cash_flow(deposit, rate, amourt)
+       rent_amount - total_monthly_cost(deposit, rate, amourt)
     end
 end

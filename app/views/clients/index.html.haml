@@ -1,0 +1,33 @@
+%h1 Listing clients
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Down payment
+      %th Down payment type
+      %th Interest rate
+      %th Amort
+      %th Agent
+      %th
+      %th
+      %th
+
+  %tbody
+    - @clients.each do |client|
+      %tr
+        %td= client.name
+        %td= client.email
+        %td= client.down_payment
+        %td= client.down_payment_type
+        %td= client.interest_rate
+        %td= client.amort
+        %td= client.agent.try(:name)
+        %td= link_to 'Show', client
+        %td= link_to 'Edit', edit_client_path(client)
+        %td= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Client', new_client_path

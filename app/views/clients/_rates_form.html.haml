@@ -1,0 +1,20 @@
+= form_for @client do |f|
+  - if @client.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
+      %ul
+        - @client.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :down_payment
+    = f.number_field :down_payment
+    = f.select :down_payment_type, options_for_select([["$", "dollars"],["%", "percent"]])
+  .field
+    = f.label :interest_rate 
+    = f.number_field :interest_rate
+    \%
+  .field
+    = f.label :amort, "Amortorization"
+    = f.number_field :amort
+  .actions
+    = f.submit 'Save'

@@ -1,0 +1,10 @@
+.col-md-2.col-xs-6.thumbnail
+  %img{:src => "#{agent.try(:avatar).blank? ? 'https://cdn.pixabay.com/photo/2016/09/28/02/14/user-1699635__480.png' : agent.try(:avatar) }", :alt =>"#{agent.try(:name)}", width: "200", height: "200"}
+  %b
+    %center
+      = agent.name
+      %br
+      %a.btn.btn-primary{href: edit_agent_path(agent), role: "button"}
+        Edit
+      .btn.btn-primary 
+        = link_to 'Destroy', agent, method: :delete, data: { confirm: 'Are you sure?' }

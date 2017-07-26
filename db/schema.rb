@@ -11,11 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170610191424) do
+ActiveRecord::Schema.define(version: 20170617000038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "agents", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "avatar"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clients", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name",              null: false
+    t.string   "email"
+    t.integer  "down_payment"
+    t.integer  "down_payment_type"
+    t.integer  "interest_rate"
+    t.integer  "amort"
+    t.integer  "agent_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "clients", ["agent_id"], name: "index_clients_on_agent_id", using: :btree
 
   create_table "listings", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "address"
@@ -45,6 +67,18 @@ ActiveRecord::Schema.define(version: 20170610191424) do
 
   add_index "pictures", ["listing_id"], name: "index_pictures_on_listing_id", using: :btree
 
+  create_table "showings", force: :cascade do |t|
+    t.uuid     "client_id",  null: false
+    t.uuid     "listing_id", null: false
+    t.date     "date"
+    t.boolean  "compare"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "showings", ["client_id"], name: "index_showings_on_client_id", using: :btree
+  add_index "showings", ["listing_id"], name: "index_showings_on_listing_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -63,4 +97,5 @@ ActiveRecord::Schema.define(version: 20170610191424) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "clients", "agents"
 end

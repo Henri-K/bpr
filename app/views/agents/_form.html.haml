@@ -1,0 +1,19 @@
+= form_for @agent do |f|
+  - if @agent.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@agent.errors.count, "error")} prohibited this agent from being saved:"
+      %ul
+        - @agent.errors.full_messages.each do |message|
+          %li= message
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :avatar
+    = f.text_field :avatar, class: "form-control"
+  .form-group
+    = f.label :email
+    = f.text_field :email, class: "form-control"
+  .actions
+    = f.submit 'Save', class: "btn btn-default"
