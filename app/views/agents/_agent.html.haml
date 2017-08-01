@@ -4,7 +4,7 @@
     %center
       = agent.name
       %br
-      %a.btn.btn-primary{href: edit_agent_path(agent), role: "button"}
-        Edit
-      .btn.btn-primary 
+      .btn.btn-default
+        = link_to 'Edit', edit_agent_path(agent)
+      .btn.btn-default 
         = link_to 'Destroy', agent, method: :delete, data: { confirm: 'Are you sure?' }

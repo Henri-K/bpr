@@ -18,44 +18,48 @@
   %p
     %b Email:
     = @client.agent.try(:email)
-    
-.col-md-12
-  %table.table.table-striped
-    %thead
-      %tr
-        %td
-        - @listings.each do |l|
+
+- if @listings.empty?
+  .col-md-12
+    No Listings
+- else
+  .col-md-12
+    %table.table.table-striped
+      %thead
+        %tr
           %td
-            .thumbnail 
-              %img{:src => "#{l.pictures.first.try(:url)}", :alt =>"#{l.pictures.first.try(:caption)}", width: "200", height: "auto"}
-              .caption
-                = l.address
-    %tbody
-      %tr 
-        %td 
-        - @listings.each do |l|
-          %td 
-            = "Beds: #{l.beds} Baths: #{l.baths} Parking: #{l.parking}"
-      - [["square_footage", "Square Footage",""," sqft", [] ], 
-         ["year_built", "Year Built", "","", []], 
-         ["days_on_market", "Days on Market", "", " Days", []], 
-         ["asking_price", "Asking Price", "$","", []], 
-         ["parking_price", "Parking Price", "$","", []],
-         ["no_parking_price", "No Parking Price","$", "", []],
-         ["condo_fees", "Condo Fees", "$", "", []],
-         ["property_tax", "Property Tax", "$", "", []],
-         ["utility_cost", "Utility Cost", "$", "", []],
-         ["mortgage_payment", "Mortgage Payment", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
-         ["total_monthly_cost", "Total Monthly Cost", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
-         ["price_per_sq_ft", "Price Per Square Foot", "$", "", []],
-         ["rent_amount", "Rent Amount", "$", "", []],
-         ["cash_flow", "Cash Flow", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
-         ].each do | attr, name, pre, post, params|
+          - @listings.each do |l|
+            %td
+              .thumbnail 
+                %img{:src => "#{l.pictures.first.try(:url)}", :alt =>"#{l.pictures.first.try(:caption)}", width: "200", height: "auto"}
+                .caption
+                  = l.address
+      %tbody
         %tr 
           %td 
-            = name
           - @listings.each do |l|
             %td 
-              = pre + l.send(attr,*params).to_s + post
+              = "Beds: #{l.beds} Baths: #{l.baths} Parking: #{l.parking}"
+        - [["square_footage", "Square Footage",""," sqft", [] ], 
+           ["year_built", "Year Built", "","", []], 
+           ["days_on_market", "Days on Market", "", " Days", []], 
+           ["asking_price", "Asking Price", "$","", []], 
+           ["parking_price", "Parking Price", "$","", []],
+           ["no_parking_price", "No Parking Price","$", "", []],
+           ["condo_fees", "Condo Fees", "$", "", []],
+           ["property_tax", "Property Tax", "$", "", []],
+           ["utility_cost", "Utility Cost", "$", "", []],
+           ["mortgage_payment", "Mortgage Payment", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
+           ["total_monthly_cost", "Total Monthly Cost", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
+           ["price_per_sq_ft", "Price Per Square Foot", "$", "", []],
+           ["rent_amount", "Rent Amount", "$", "", []],
+           ["cash_flow", "Cash Flow", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
+           ].each do | attr, name, pre, post, params|
+          %tr 
+            %td 
+              = name
+            - @listings.each do |l|
+              %td 
+                = pre + l.send(attr,*params).to_s + post
 
 
