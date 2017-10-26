@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  resources :clients
+  resources :clients do 
+    post '/showings/:showing_id/compare' => 'clients#compare', as: 'compare'
+    post '/showings/:showing_id/thumb' => 'clients#thumb', as: 'thumb'
+    resources :listings, only: :show
+  end
   resources :agents
-  resources :listings
+  resources :listings do
+    collection { post :import }
+  end
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

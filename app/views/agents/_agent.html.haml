@@ -1,10 +1,8 @@
 .col-md-2.col-xs-6.thumbnail
-  %img{:src => "#{agent.try(:avatar).blank? ? 'https://cdn.pixabay.com/photo/2016/09/28/02/14/user-1699635__480.png' : agent.try(:avatar) }", :alt =>"#{agent.try(:name)}", width: "200", height: "200"}
+  %img{:src => "#{agent.try(:avatar).blank? ? 'https://cdn.pixabay.com/photo/2016/09/28/02/14/user-1699635__480.png' : agent.try(:avatar) }", :alt =>"#{agent.try(:name)}"}
   %b
     %center
       = agent.name
       %br
-      .btn.btn-default
-        = link_to 'Edit', edit_agent_path(agent)
-      .btn.btn-default 
-        = link_to 'Destroy', agent, method: :delete, data: { confirm: 'Are you sure?' }
+      = link_to 'Edit', edit_agent_path(agent), class: "btn btn-default"
+      = link_to 'Destroy', agent, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default"

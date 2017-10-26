@@ -1,20 +1,25 @@
-= form_for @client do |f|
+
+= form_for @client, {class: 'form-horizontal'} do |f|
   - if @client.errors.any?
     #error_explanation
       %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
       %ul
         - @client.errors.full_messages.each do |message|
           %li= message
-  .field
-    = f.label :down_payment
-    = f.number_field :down_payment
-    = f.select :down_payment_type, options_for_select([["$", "dollars"],["%", "percent"]])
-  .field
-    = f.label :interest_rate 
-    = f.number_field :interest_rate
-    \%
-  .field
-    = f.label :amort, "Amortorization"
-    = f.number_field :amort
-  .actions
-    = f.submit 'Save'
+  %div.form-group
+    = f.label :down_payment, class: 'col-sm-4 control-label'
+    .col-sm-4
+      = f.number_field :down_payment, class: 'form-control input-sm'
+    .col-sm-2
+      = f.select :down_payment_type, options_for_select([["$", "dollars"],["%", "percent"] ], @client.down_payment_type), {}, {class: 'form-control input-sm'}
+  %div.form-group
+    = f.label :interest_rate, class: 'col-sm-4 control-label' 
+    %div.col-sm-6
+      = f.number_field :interest_rate, class: 'form-control input-sm'
+  %div.form-group
+    = f.label :amort, "Amortorization", class: 'col-sm-4 control-label'
+    %div.col-sm-6
+      = f.number_field :amort, class: 'form-control input-sm'
+  %div.form-group
+    %div.col-sm-12
+      = f.submit 'Save', class: 'btn btn-default'

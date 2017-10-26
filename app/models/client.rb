@@ -14,4 +14,13 @@ class Client < ActiveRecord::Base
                                 
   #Queries
   default_scope { order(created_at: :desc) }
+  
+  def self.search(search)
+    if search
+        where(['name ILIKE ?', "%#{search}%"])
+    else
+        all
+    end
+  end
+  
 end

@@ -1,76 +1,70 @@
-%h3 
-  %u Section 1
 
-%p
-  %b Address:
-  = @listing.address
-%p
-  %b Beds:
-  = @listing.beds
-%p
-  %b Baths:
-  = @listing.baths
-%p
-  %b Parking:
-  = @listing.parking
-%p
-  %b Square footage:
-  = @listing.square_footage
-%p
-  %b Year built:
-  = @listing.year_built
-%p
-  %b Days on Market:
-  = @listing.days_on_market
-  
-%h3 
-  %u Section 2
+= render "clients/client_header", client: @client if @client
 
-%p
-  %b Asking price:
-  = @listing.asking_price
-%p
-  %b Price of Parking:
-  = @listing.parking_price
-%p
-  %b Price with no parking:
-  = @listing.no_parking_price
-%br
+.row
+  .col-md-4.col-xs-12.thumbnail
+    %h3
+      = @listing.address
+      
+    %table.table.borderless
+    
+      - fieldlist = [["Beds", @listing.beds,""],
+                     ["Baths", @listing.baths,""],
+                     ["Parking", @listing.parking, ""],
+                     ["Square footage", @listing.square_footage_str, ""],
+                     ["Year built", @listing.year_built_str, ""],
+                     ["Days on Market", @listing.days_on_market_str,""],
+                     ["Asking price", @listing.asking_price_str, ""],
+                     ["Price of Parking", @listing.parking_price_str, ""],
+                     ["Price with no parking", @listing.no_parking_price_str, ""],
+                     ["Price per Square Foot", @listing.price_per_sq_ft_str, "total"],
+                     ["Condo fees", @listing.condo_fees_str, ""],
+                     ["Property tax", @listing.property_tax_str, ""],
+                     ["Utility cost", @listing.utility_cost_str, ""],
+                     ["Mortgage Payment", @mortgage_payment, ""],
+                     ["Total Monthly Cost", @total_monthly_cost,"total"],
+                     ["Estimated Rental Amount", @listing.rent_amount_str, ""],
+                     ["Cash Flow", @cash_flow, "total"]]
+      - fieldlist.each do |label, value, class_str|
+        %tr{:class => "#{class_str}"}
+          %td 
+            = label
+          %td.text-right 
+            = value
+  .col-md-8.col-xs-12.thumbnail
+    %div.listing-image-big
+      - @listing.pictures.each do |pic|
+        %div
+          %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
+    %div.listing-images
+      - @listing.pictures.each do |pic|
+        %div
+          %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
+  
 
-%p
-  %b Condo fees:
-  = @listing.condo_fees
-%p
-  %b Property tax:
-  = @listing.property_tax
-%p
-  %b Utility cost:
-  = @listing.utility_cost
-%p
-  %b Mortgage Payment:
-  = @mortgage_payment
-%p
-  %b Total Monthly Cost:
-  = @total_monthly_cost
-%br
+- unless @client
+  = link_to 'Edit', edit_listing_path(@listing)
+  \|
+  = link_to 'Back', listings_path 
+- else
+  = link_to 'Back', client_path(@client)
 
-%p
-  %b Price per Square Foot:
-  = @listing.price_per_sq_ft
-%br
-%p
-  %b Estimated Rental Amount:
-  = @listing.rent_amount
-%br
-%p
-  %b Cash Flow:
-  = @cash_flow
-  
-- @listing.pictures.each do |pic|
-  %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
-  
-  
-  
-= link_to 'Edit', edit_listing_path(@listing)
-\|
-= link_to 'Back', listings_path
+:javascript
+  $(document).ready(function(){
+    $('.listing-image-big').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      fade: true,
+      asNavFor: '.listing-images',
+      adaptiveHeight: true
+    });
+    $('.listing-images').slick({
+      slidesToShow: 3,
+      slidesToScroll: 3,
+      asNavFor: '.listing-image-big',
+      dots: true,
+      centerMode: false,
+      focusOnSelect: true
+    });
+  });

@@ -1,65 +1,59 @@
-%p
-  = link_to 'Edit', edit_client_path(@client)
-  \|
-  = link_to 'Back', clients_path
+// %p
+//   = link_to 'Edit', edit_client_path(@client)
+//   \|
+//   = link_to 'Back', clients_path
   
-.col-md-6.col-xs-12
-  %p
-    %b 
-      = "Welcome #{@client.name}!"
-  = render 'rates_form'
+= render "client_header", client: @client
+        
+%ul.nav.nav-tabs
+  %li{role: "presentation", class: "#{params[:view] ? '' : 'active'}"}
+    = link_to 'Dashboard'
+  %li{role: "presentation", class: "#{params[:view] == 'compare' ? 'active' : ''}"}
+    = link_to 'Compare', view: "compare"
+  %li{role: "presentation", class: "#{params[:view] == 'all' ? 'active' : ''}"}
+    = link_to 'All Showings', view: "all"
 
-.col-md-6.col-xs-12{align: "center"}
-  %p
-    %img{:src => "#{@client.agent.try(:avatar)}", :alt =>"#{@client.agent.try(:name)}", width: "100", height: "100"}
-  %p
-    %b Agent:
-    = @client.agent.try(:name)  
-  %p
-    %b Email:
-    = @client.agent.try(:email)
-
-- if @listings.empty?
-  .col-md-12
-    No Listings
-- else
-  .col-md-12
-    %table.table.table-striped
-      %thead
-        %tr
-          %td
-          - @listings.each do |l|
-            %td
-              .thumbnail 
-                %img{:src => "#{l.pictures.first.try(:url)}", :alt =>"#{l.pictures.first.try(:caption)}", width: "200", height: "auto"}
-                .caption
-                  = l.address
-      %tbody
-        %tr 
-          %td 
-          - @listings.each do |l|
-            %td 
-              = "Beds: #{l.beds} Baths: #{l.baths} Parking: #{l.parking}"
-        - [["square_footage", "Square Footage",""," sqft", [] ], 
-           ["year_built", "Year Built", "","", []], 
-           ["days_on_market", "Days on Market", "", " Days", []], 
-           ["asking_price", "Asking Price", "$","", []], 
-           ["parking_price", "Parking Price", "$","", []],
-           ["no_parking_price", "No Parking Price","$", "", []],
-           ["condo_fees", "Condo Fees", "$", "", []],
-           ["property_tax", "Property Tax", "$", "", []],
-           ["utility_cost", "Utility Cost", "$", "", []],
-           ["mortgage_payment", "Mortgage Payment", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
-           ["total_monthly_cost", "Total Monthly Cost", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
-           ["price_per_sq_ft", "Price Per Square Foot", "$", "", []],
-           ["rent_amount", "Rent Amount", "$", "", []],
-           ["cash_flow", "Cash Flow", "$", "", [@client.down_payment, DecNum(@client.interest_rate)/100.0, @client.amort]],
-           ].each do | attr, name, pre, post, params|
-          %tr 
-            %td 
-              = name
-            - @listings.each do |l|
-              %td 
-                = pre + l.send(attr,*params).to_s + post
-
-
+- case params[:view]
+  - when "compare"
+    = render 'listings/compare_listings', showings: @showings
+  - when "all"
+    .row
+      .col-md-12
+        %br
+        ALL LISTINGS
+        %br
+        %br
+        = render 'listings/order_by_links'
+    -unless @showings.empty?
+      = render 'listings/dashboard_listing_set', {title: "All Listings", div_link_id: "asking", attr_label: "Asking Price: ",
+                                                  link_name: "", showings: @showings, 
+                                                  attr: "asking_price_str", client: nil, hidden: ""}
+    -else
+      = "Ask your Real Estate Agent how you can review your listings."
+  - else
+    .row 
+      .col-md-12
+        %br
+        TOP LISTINGS
+        %br
+        %br
+    - unless @showings.empty?                              
+      - @dashboard_listing_set.each do |ls|
+        = render 'listings/dashboard_listing_set', ls
+    -else
+      = "Ask your Real Estate Agent how you can review your listings."
+      
+:javascript 
+  $(function() {
+    $('a.high-low-link').click(function(event){
+      var id = event.target.id;
+      event.preventDefault();
+      $('div#'+ id).toggle();
+    });
+  });
+  $(function() {
+    $('input.compare').click(function(event){
+      var id = event.target.id;
+      $('input#'+ id).toggle();
+    });
+  });

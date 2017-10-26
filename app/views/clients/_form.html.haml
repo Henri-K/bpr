@@ -15,7 +15,7 @@
   .field
     = f.label :down_payment
     = f.number_field :down_payment
-    = f.select :down_payment_type, options_for_select([["$", "dollars"],["%", "percent"]])
+    = f.select :down_payment_type, options_for_select([["$", "dollars"],["%", "percent"]], @client.down_payment_type)
   .field
     = f.label :interest_rate 
     = f.number_field :interest_rate

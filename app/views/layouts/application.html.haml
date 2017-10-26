@@ -10,10 +10,7 @@
   %body
     %header
       = render 'layouts/navigation'
-    %p{:class => "notice"}
-      = notice
-    %p{:class => "alert"}
-      = alert
-    %main{:role => "main"}
+    %main.container
       = render 'layouts/messages'
+      
       = yield

@@ -1,50 +1,57 @@
-%h1 Listings
+%h1.page-header 
+  %span
+    Listings
+    = link_to 'New Listing', new_listing_path, class: "btn btn-default"
 
-= form_tag listings_path, :method => :get do
-  = text_field_tag :search, params[:search]
-  = submit_tag "search", :name => nil
-        
+.row  
+  .col-md-6.col-sx-12
+    = form_tag listings_path, :method => :get, class: "form-inline" do
+      .form-group
+        = text_field_tag :search, params[:search], class: "form-control"
+      = submit_tag "search", :name => nil, class: "btn btn-default"
+  .col-md-6.col-sx-12
+    = form_tag import_listings_path, multipart: true, class: "form-inline" do 
+      .form-group
+        = file_field_tag :file, class: "form-control"
+      = submit_tag "Import", class: "form-group btn btn-default"
 
-%table
+
+%table.table
   %thead
     %tr
-      %th Address
-      %th Beds
-      %th Baths
-      %th Parking
-      %th Square footage
-      %th Year built
-      %th Listing date
-      %th Asking price
-      %th Parking price
-      %th Condo fees
-      %th Property tax
-      %th Utility cost
-      %th Rent amount
-      %th
-      %th
+      - [["Address", "address"],
+         ["", nil],
+         ["Bed", "beds"],
+         ["Bath", "baths"],
+         ["Park", "parking"],
+         ["SQFT", "square_footage"],
+         ["CDOM", "listing_date"],
+         ["Asking Price", "asking_price"],
+         ["Fees", nil],
+         ["Images", nil],
+         ["Rent Amount", "rent_amount"]].each do | label, order |
+        - if order
+          %th= link_to label, listings_path(order: params[:order] == order ? order + " DESC" : order, search: params[:search])
+        - else
+          %th= label
       %th
 
   %tbody
     - @listings.each do |listing|
       %tr
-        %td= listing.address
+        %td= link_to truncate(listing.address).upcase, listing
+        %td= link_to 'Edit', edit_listing_path(listing)
         %td= listing.beds
         %td= listing.baths
         %td= listing.parking
         %td= listing.square_footage
-        %td= listing.year_built
-        %td= listing.listing_date
-        %td= listing.asking_price
-        %td= listing.parking_price
-        %td= listing.condo_fees
-        %td= listing.property_tax
-        %td= listing.utility_cost
-        %td= listing.rent_amount
-        %td= link_to 'Show', listing
-        %td= link_to 'Edit', edit_listing_path(listing)
-        %td= link_to 'Destroy', listing, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= listing.days_on_market
+        %td= listing.asking_price_str[0...-3] + "K"
+        %td= listing.fees_count.to_s + "/3"
+        %td= listing.pictures.size
+        %td= listing.rent_amount_str
+        %td= link_to 'X', listing, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Listing', new_listing_path
+

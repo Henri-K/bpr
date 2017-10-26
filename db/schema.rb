@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170617000038) do
+ActiveRecord::Schema.define(version: 20170924164833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(version: 20170617000038) do
     t.boolean  "compare"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "thumbup"
+    t.boolean  "thumbdown"
   end
 
   add_index "showings", ["client_id"], name: "index_showings_on_client_id", using: :btree

@@ -4,20 +4,26 @@ class ListingsController < ApplicationController
   # GET /listings
   # GET /listings.json
   def index
-    @listings = Listing.search(params[:search])
+    @listings = Listing.search(params[:search]).includes(:pictures).order(params[:order])
   end
 
   # GET /listings/1
   # GET /listings/1.json
   def show
-    @mortgage_payment = @listing.mortgage_payment(nil, nil, nil)
-    @total_monthly_cost = @listing.total_monthly_cost(nil, nil, nil)
-    @cash_flow = @listing.cash_flow(nil, nil, nil)
+    @client = Client.find(params[:client_id])
+    @mortgage_payment = @listing.mortgage_payment_str(@client)
+    @total_monthly_cost = @listing.total_monthly_cost_str(@client)
+    @cash_flow = @listing.cash_flow_str(@client)
   end
 
   # GET /listings/new
   def new
     @listing = Listing.new
+  end
+  
+  def import
+    message = Listing.import(params[:file])
+    redirect_to listings_path, message
   end
 
   # GET /listings/1/edit
