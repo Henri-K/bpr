@@ -1,0 +1,35 @@
+//{:title :div_link_id :link_name :listings :attr :client :attr_label}
+.row.thumbnail{:id => div_link_id, class: hidden}
+  .col-md-8
+    %br
+    = title
+    %br
+    %br
+  .col-md-4.text-right
+    %br
+    = link_to link_name, "#", class: "high-low-link", id: div_link_id
+  .row
+  - showings.each do |s|
+    - l = s.listing
+    .col-md-4
+      = link_to client_listing_path(client_id: @client.id, id: l.id) do 
+        %img{:src => "#{l.pictures.first.try(:url)}", :alt =>"#{l.pictures.first.try(:caption)}"}
+      %br
+      = link_to client_listing_path(client_id: @client.id, id: l.id) do 
+        = l.address 
+      %br
+      = "Beds: #{l.beds} Baths: #{l.baths} Parking: #{l.parking}"
+      %br
+      - if client
+        = attr_label + l.send(attr, client)
+      - else
+        = attr_label + l.send(attr)
+      = button_to "Compare", client_compare_path(client_id: @client.id, showing_id: s.id, compare: true),  remote: true, class: "btn btn-default compare #{s.compare ? 'hide-div' : ''}", id: "compare_#{s.id}"
+      = button_to "Uncompare", client_compare_path(client_id: @client.id, showing_id: s.id, compare: false), remote: true, class: "btn btn-default compare #{s.compare ? '' : 'hide-div'}", id: "compare_#{s.id}"
+      = button_to "Thumbup", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbup: true),  remote: true, class: "btn btn-default compare #{s.thumbup ? 'hide-div' : ''}", id: "thumbup_#{s.id}"
+      = button_to "unThumbup", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbup: false), remote: true, class: "btn btn-default compare #{s.thumbup ? '' : 'hide-div'}", id: "thumbup_#{s.id}"
+      = button_to "Thumbdown", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbdown: true),  remote: true, class: "btn btn-default compare #{s.thumbdown ? 'hide-div' : ''}", id: "thumbdown_#{s.id}"
+      = button_to "unThumbdown", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbdown: false), remote: true, class: "btn btn-default compare #{s.thumbdown ? '' : 'hide-div'}", id: "thumbdown_#{s.id}"
+      
+      %br
+      %br

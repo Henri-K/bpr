@@ -1,0 +1,12 @@
+.text-center
+  Sort by:
+  - [["Address", "address"],
+     ["# of Beds", "beds"],
+     ["# of Baths", "baths"],
+     ["# of Parking Spots", "parking"],
+     ["Square Footage", "square_footage"],
+     ["Days on Market", "listing_date"],
+     ["Asking Price", "asking_price"],
+     ["Rent Amount", "rent_amount"]].each do | label, order |
+    = link_to " - " + label, client_path(order: params[:order] == order ? order + " DESC" : order, view: params[:view])
+  %br

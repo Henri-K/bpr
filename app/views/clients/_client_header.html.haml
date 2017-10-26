@@ -1,0 +1,22 @@
+.row-eq-height
+  .col-md-6.col-xs-12.thumbnail
+    %p
+      %b Modify the values below to help with your buying decision.
+    = render 'clients/rates_form'
+  
+  .col-md-6.col-xs-12.thumbnail
+    .col-md-4.col-xs-4
+      %br
+      %br
+      %p
+        %img{:src => "#{client.agent.try(:avatar)}", :alt =>"#{@client.agent.try(:name)}", width: "100", height: "100"}
+    .col-md-8.col-xs-8
+      %p 
+        %b BLUE PANDA AGENT
+      %br
+      %p
+        %b
+          = client.agent.try(:name)  
+      %p 
+        Email:
+        = client.agent.try(:email)

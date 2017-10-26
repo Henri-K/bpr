@@ -1,0 +1,46 @@
+.row
+  - if showings.empty?
+    .col-md-12
+      No Listings
+  - else
+    .col-md-12
+      %table.table.table-striped
+        %thead
+          %tr
+            %td
+            - showings.each do |s|
+              - l = s.listing
+              %td
+                .thumbnail 
+                  = link_to client_listing_path(client_id: @client.id, id: l.id) do
+                    %img{:src => "#{l.pictures.first.try(:url)}", :alt =>"#{l.pictures.first.try(:caption)}"}
+                  .caption
+                    = l.address
+        %tbody
+          %tr 
+            %td 
+            - showings.each do |s|
+              - l = s.listing
+              %td 
+                = "Beds: #{l.beds} Baths: #{l.baths} Parking: #{l.parking}"
+          - [["square_footage_str", "Square Footage", []], 
+             ["year_built", "Year Built", []], 
+             ["days_on_market_str", "Days on Market", []], 
+             ["asking_price_str", "Asking Price", []], 
+             ["parking_price_str", "Parking Price", []],
+             ["no_parking_price_str", "No Parking Price", []],
+             ["condo_fees_str", "Condo Fees", []],
+             ["property_tax_str", "Property Tax", []],
+             ["utility_cost_str", "Utility Cost", []],
+             ["mortgage_payment_str", "Mortgage Payment", [@client]],
+             ["total_monthly_cost_str", "Total Monthly Cost", [@client]],
+             ["price_per_sq_ft_str", "Price Per Square Foot", []],
+             ["rent_amount_str", "Rent Amount", []],
+             ["cash_flow_str", "Cash Flow", [@client]],
+             ].each do | attr, name, params|
+            %tr 
+              %td 
+                = name
+              - showings.each do |s|
+                %td 
+                  = s.listing.send(attr,*params).to_s
