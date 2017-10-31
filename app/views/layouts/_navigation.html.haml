@@ -7,9 +7,10 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to 'Home', root_path, class: 'navbar-brand'
+      = link_to root_path, class: 'navbar-brand', title: t('company') do
+        = image_tag 'logo.png' , alt: t('company')
     .collapse.navbar-collapse
-      %ul.nav.navbar-nav
+      %ul.nav.navbar-nav.text-uppercase
         = render 'layouts/navigation_links'
       %ul.nav.navbar-nav.navbar-right
         - if current_user
