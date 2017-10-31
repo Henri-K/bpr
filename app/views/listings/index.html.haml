@@ -14,6 +14,9 @@
       .form-group
         = file_field_tag :file, class: "form-control"
       = submit_tag "Import", class: "form-group btn btn-default"
+      
+.row.text-center
+  = will_paginate @listings, renderer: BootstrapPagination::Rails
 
 
 %table.table
@@ -52,6 +55,7 @@
         %td= listing.rent_amount_str
         %td= link_to 'X', listing, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
+.row.text-center
+  = will_paginate @listings, renderer: BootstrapPagination::Rails
 
 

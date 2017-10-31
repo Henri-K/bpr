@@ -1,3 +1,6 @@
+.row.text-center
+  = will_paginate showings, renderer: BootstrapPagination::Rails
+
 .row
   - if showings.empty?
     .col-md-12
@@ -44,3 +47,6 @@
               - showings.each do |s|
                 %td 
                   = s.listing.send(attr,*params).to_s
+
+.row.text-center
+  = will_paginate showings, renderer: BootstrapPagination::Rails

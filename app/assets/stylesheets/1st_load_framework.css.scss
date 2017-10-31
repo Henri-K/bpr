@@ -1,6 +1,26 @@
+@font-face {
+  font-family: 'Avenir Book';
+  src: asset_url("Avenir_Book.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Avenir Medium';
+  src: asset_url("Avenir_Medium.ttf") format("truetype");
+}
+
 // import the CSS framework
 @import "bootstrap-sprockets";
-@import "bootstrap";
+// @import "bootstrap_variables";
+@import "bootstrap_custom";
+
+.bg_white {
+ background-color: #FFF; 
+}
+
+// TODO: add 'medium and up' only responsive here
+.border_right_md {
+  border-right: 1px solid #F5F6F7;
+}
 
 // make all images responsive by default
 img {
@@ -58,7 +78,7 @@ section {
 }
 
 .hide-div {
-  display: none;
+  display: none !important;
 }
 
 .borderless tr td {

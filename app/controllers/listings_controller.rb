@@ -4,7 +4,7 @@ class ListingsController < ApplicationController
   # GET /listings
   # GET /listings.json
   def index
-    @listings = Listing.search(params[:search]).includes(:pictures).order(params[:order])
+    @listings = Listing.search(params[:search]).includes(:pictures).order(params[:order]).paginate(:page => params[:page], :per_page => 30)
   end
 
   # GET /listings/1

@@ -10,6 +10,7 @@ class AgentsController < ApplicationController
   # GET /agents/1
   # GET /agents/1.json
   def show
+    @clients = @agent.clients.paginate(:page => params[:page])
   end
 
   # GET /agents/new

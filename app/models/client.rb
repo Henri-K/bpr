@@ -12,6 +12,8 @@ class Client < ActiveRecord::Base
                                 :allow_destroy => true, 
                                 :reject_if => :all_blank
                                 
+  self.per_page = 30
+                                
   #Queries
   default_scope { order(created_at: :desc) }
   

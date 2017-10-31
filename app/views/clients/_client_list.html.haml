@@ -1,3 +1,6 @@
+.row.text-center
+  = will_paginate clients, renderer: BootstrapPagination::Rails
+
 .col-md-12
   %table.table
     %thead
@@ -27,3 +30,6 @@
               = number_to_currency((c.showings.inject(0) { |sum, showing| sum + showing.listing.asking_price } / c.showings.size), {precision: 0})
           %td
             = link_to 'X', c, method: :delete, data: { confirm: 'Are you sure?' }
+            
+.row.text-center
+  = will_paginate clients, renderer: BootstrapPagination::Rails

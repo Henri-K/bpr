@@ -4,15 +4,16 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.search(params[:search])
+    @clients = Client.search(params[:search]).paginate(:page => params[:page])
   end
 
   # GET /clients/1
   # GET /clients/1.json
   def show
     @showings = @client.showings.includes(listing: :pictures)
-    @showings = @showings.where('showings.compare' => true) if (params[:view] == "compare")
-    @showings = @showings.order("listings." + params[:order]) if params[:order] 
+    @showings = @showings.order("listings." + params[:order]) if params[:order]
+    @showings = @showings.where('showings.compare' => true).paginate(:page => params[:page], :per_page => 3) if (params[:view] == "compare")
+    @showings = @showings.paginate(:page => params[:page], :per_page => 21) if (params[:view] == "all")
     
     @dashboard_listing_set = dashboard_listing_set(@showings, @client) unless params[:view]
   end
@@ -73,7 +74,7 @@ class ClientsController < ApplicationController
   # PATCH/PUT /clients/1.json
   def update
     respond_to do |format|
-      succeess_redirect_path = URI(request.referer).path.gsub! 'edit', ''
+      succeess_redirect_path = URI(request.referer).path.gsub 'edit', ''
       if @client.update(client_params)
         format.html { redirect_to succeess_redirect_path, notice: 'Client was successfully updated.' }
         format.json { render :show, status: :ok, location: @client }
@@ -144,10 +145,10 @@ class ClientsController < ApplicationController
         attr: "rent_amount_str", client: nil, hidden: "hide-div"},
         #Year built…….Newest to oldest 
         {title: "Newest Build Year", div_link_id: "rent", attr_label: "Build Year: ",
-        link_name: "Oldest", showings: showings.sort_by {|l| l.listing.year_built}.reverse.take(3), 
+        link_name: "Oldest", showings: showings.sort_by {|l| l.listing.year_built || 1900}.reverse.take(3), 
         attr: "year_built_str", client: nil, hidden: ""},
         {title: "Oldest Build Year", div_link_id: "rent", attr_label: "Build Year: ",
-        link_name: "Newest", showings: showings.sort_by {|l| l.listing.year_built}.take(3), 
+        link_name: "Newest", showings: showings.sort_by {|l| l.listing.year_built || 1900}.take(3), 
         attr: "year_built_str", client: nil, hidden: "hide-div"},
         #Property taxes…..lowest to highest
         {title: "Highest Property Taxes", div_link_id: "rent", attr_label: "Property Taxes: ",

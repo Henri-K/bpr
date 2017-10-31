@@ -13,47 +13,52 @@
   %li{role: "presentation", class: "#{params[:view] == 'all' ? 'active' : ''}"}
     = link_to 'All Showings', view: "all"
 
-- case params[:view]
-  - when "compare"
-    = render 'listings/compare_listings', showings: @showings
-  - when "all"
-    .row
-      .col-md-12
-        %br
-        ALL LISTINGS
-        %br
-        %br
-        = render 'listings/order_by_links'
-    -unless @showings.empty?
-      = render 'listings/dashboard_listing_set', {title: "All Listings", div_link_id: "asking", attr_label: "Asking Price: ",
-                                                  link_name: "", showings: @showings, 
-                                                  attr: "asking_price_str", client: nil, hidden: ""}
-    -else
-      = "Ask your Real Estate Agent how you can review your listings."
-  - else
-    .row 
-      .col-md-12
-        %br
-        TOP LISTINGS
-        %br
-        %br
-    - unless @showings.empty?                              
-      - @dashboard_listing_set.each do |ls|
-        = render 'listings/dashboard_listing_set', ls
-    -else
-      = "Ask your Real Estate Agent how you can review your listings."
+.content.thumbnail
+  - case params[:view]
+    - when "compare"
+      = render 'listings/compare_listings', showings: @showings
+    - when "all"
+      .row
+        .col-md-12
+          %br
+          ALL LISTINGS
+          %br
+          %br
+          = render 'listings/order_by_links'
+      -unless @showings.empty?
+        .row.text-center
+          = will_paginate @showings, renderer: BootstrapPagination::Rails
+        = render 'listings/dashboard_listing_set', {title: "All Listings", div_link_id: "asking", attr_label: "Asking Price: ",
+                                                    link_name: "", showings: @showings, 
+                                                    attr: "asking_price_str", client: nil, hidden: ""}
+        .row.text-center
+          = will_paginate @showings, renderer: BootstrapPagination::Rails
+      -else
+        = "Ask your Real Estate Agent how you can review your listings."
+    - else
+      .row 
+        .col-md-12
+          %br
+          TOP LISTINGS
+          %br
+          %br
+      - unless @showings.empty?                              
+        - @dashboard_listing_set.each do |ls|
+          = render 'listings/dashboard_listing_set', ls
+      -else
+        = "Ask your Real Estate Agent how you can review your listings."
       
 :javascript 
   $(function() {
     $('a.high-low-link').click(function(event){
       var id = event.target.id;
       event.preventDefault();
-      $('div#'+ id).toggle();
+      $('div#'+ id).toggleClass('hide-div');
     });
   });
   $(function() {
     $('input.compare').click(function(event){
       var id = event.target.id;
-      $('input#'+ id).toggle();
+      $('input#'+ id).toggleClass('hide-div');
     });
   });
