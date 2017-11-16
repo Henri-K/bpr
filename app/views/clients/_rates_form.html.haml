@@ -15,7 +15,7 @@
   %div.form-group
     = f.label :interest_rate, class: 'col-sm-4 control-label' 
     %div.col-sm-6
-      = f.number_field :interest_rate, class: 'form-control input-sm'
+      = f.number_field :interest_rate, class: 'form-control input-sm', :step => 0.01
   %div.form-group
     = f.label :amort, "Amortorization", class: 'col-sm-4 control-label'
     %div.col-sm-6

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924164833) do
+ActiveRecord::Schema.define(version: 20171104232052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20170924164833) do
     t.string   "email"
     t.integer  "down_payment"
     t.integer  "down_payment_type"
-    t.integer  "interest_rate"
+    t.decimal  "interest_rate"
     t.integer  "amort"
     t.integer  "agent_id"
     t.datetime "created_at",        null: false

@@ -1,5 +1,6 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: [:show]
 
   # GET /listings
   # GET /listings.json
@@ -10,7 +11,7 @@ class ListingsController < ApplicationController
   # GET /listings/1
   # GET /listings/1.json
   def show
-    @client = Client.find(params[:client_id])
+    @client = Client.find(params[:client_id]) if params[:client_id]
     @mortgage_payment = @listing.mortgage_payment_str(@client)
     @total_monthly_cost = @listing.total_monthly_cost_str(@client)
     @cash_flow = @listing.cash_flow_str(@client)
