@@ -7,8 +7,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to root_path, class: 'navbar-brand', title: t('company') do
-        = image_tag 'logo.png' , alt: t('company')
+      = link_to image_tag('logo.png', alt: t('company')), root_path, class: 'navbar-brand', title: t('company')
     .collapse.navbar-collapse
       %ul.nav.navbar-nav.text-uppercase
         = render 'layouts/navigation_links'

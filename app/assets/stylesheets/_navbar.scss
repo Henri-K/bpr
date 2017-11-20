@@ -8,6 +8,15 @@
 
 .navbar-nav {
   a {
+    font-family: 'Avenir Medium';
     font-weight: 100;//$headings-font-weight;
+    letter-spacing: 1.4pt;
+  }
+}
+
+.navbar {
+  &#secondary_nav {
+    margin-bottom: 0;
+    min-height: auto !important;
   }
 }

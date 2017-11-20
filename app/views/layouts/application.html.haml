@@ -8,9 +8,9 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
     = csrf_meta_tags
   %body
-    %header
-      = render 'layouts/navigation'
+    %header= render 'layouts/navigation'
     %main.container
+      %nav.navbar#secondary_nav
+        = link_to 'Back', 'javascript:history.back()', title: 'Go back to the previous page', class: 'btn'
       = render 'layouts/messages'
-      
-      = yield
+      .row.thumbnail= yield
