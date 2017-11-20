@@ -1,8 +1,9 @@
-.col-md-2.col-xs-6
-  %img.img-circle{:src => "#{agent.try(:avatar).blank? ? 'https://cdn.pixabay.com/photo/2016/09/28/02/14/user-1699635__480.png' : agent.try(:avatar) }", :alt =>"#{agent.try(:name)}"}
-  %b
-    %center
-      = agent.name
-      %br
-      = link_to 'Edit', edit_agent_path(agent), class: "btn btn-default"
-      = link_to 'Destroy', agent, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default"
+= link_to agent_path(agent), title: "See #{agent.name}'s profile" do
+  .col-md-3.col-xs-6
+    %img.img-circle{:src => "#{agent.try(:avatar).blank? ? image_url('user_placeholder.jpg') : agent.try(:avatar) }", :alt =>"#{agent.try(:name)}"}
+    %b
+      %center
+        = agent.name
+        %br
+        = link_to 'Edit', edit_agent_path(agent), class: 'btn btn-default'
+        = link_to 'Delete', agent, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default'
