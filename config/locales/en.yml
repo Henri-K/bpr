@@ -21,3 +21,5 @@
 
 en:
   company: Blue Panda Reality
+  email: "Email: %{email}"
+  phone: "Phone: %{email}"

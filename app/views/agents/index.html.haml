@@ -1,14 +1,5 @@
-
-%h1.page-header Agents
-.row.thumbnail
-  .col-xs-12
-    %a{href: new_agent_path}
-      .col-md-2.col-xs-6.thumbnail
-        %img{:src => "https://cdn.pixabay.com/photo/2016/12/21/17/11/signe-1923369__480.png", :alt =>"Add New Agent", width: "200", height: "200"}
-        %b
-          %center
-            Add New Agent
-
-    - @agents.each do |agent|
-      %a{href: agent_path(agent)}
-        = render 'agent', agent: agent
+= render layout: 'layouts/content_heading', locals: { title: 'Agent List' } do
+  = link_to 'Add New Agent', new_agent_path, class: 'btn btn-primary'
+.col-xs-12
+  - @agents.each do |agent|
+    = render 'agent', agent: agent
