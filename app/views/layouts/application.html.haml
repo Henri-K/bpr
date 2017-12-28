@@ -2,7 +2,7 @@
 %html
   %head
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
-    %title= content_for?(:title) ? yield(:title) : 'Bpr'
+    %title= content_for?(:title) ? yield(:title) : 'BPR'
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Bpr'}"}
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
@@ -11,6 +11,9 @@
     %header= render 'layouts/navigation'
     %main.container
       %nav.navbar#secondary_nav
-        = link_to 'Back', 'javascript:history.back()', title: 'Go back to the previous page', class: 'btn'
+        = link_to 'javascript:history.back()', title: 'Go back to the previous page', class: 'btn' do
+          %span.glyphicon.glyphicon-menu-left
+          &nbsp;
+          Back
       = render 'layouts/messages'
       .row.thumbnail= yield
