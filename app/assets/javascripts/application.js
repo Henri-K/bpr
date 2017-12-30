@@ -13,5 +13,8 @@
 //= require rails-ujs
 //= require jquery
 //= require bootstrap-sprockets
+//= require underscore
+//= require select2
 //= require_tree .
 //= require jquery.slick
+

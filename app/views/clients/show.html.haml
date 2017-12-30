@@ -16,14 +16,11 @@
 .content.thumbnail
   - case params[:view]
     - when "compare"
+      = render 'listings/order_by_links'
       = render 'listings/compare_listings', showings: @showings
     - when "all"
       .row
         .col-md-12
-          %br
-          ALL LISTINGS
-          %br
-          %br
           = render 'listings/order_by_links'
       -unless @showings.empty?
         .row.text-center
@@ -38,10 +35,6 @@
     - else
       .row 
         .col-md-12
-          %br
-          TOP LISTINGS
-          %br
-          %br
       - unless @showings.empty?                              
         - @dashboard_listing_set.each do |ls|
           = render 'listings/dashboard_listing_set', ls
@@ -61,4 +54,7 @@
       var id = event.target.id;
       $('input#'+ id).toggleClass('hide-div');
     });
+  });
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip({html: true})
   });

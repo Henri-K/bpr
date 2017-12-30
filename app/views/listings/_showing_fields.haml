@@ -1,0 +1,9 @@
+%fieldset
+  .field
+    = f.date_select :date 
+    - if f.object.client
+      = f.object.client.name + ", " + f.object.client.email
+    - else
+      = f.select :client_id, options_for_select([["Select a client", 1]]), {}, {class: "client_id"}
+    = f.hidden_field :_destroy
+    = link_to "remove", '#', class: "remove_fields"

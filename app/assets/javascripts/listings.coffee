@@ -12,3 +12,77 @@ jQuery ->
     regexp = new RegExp($(this).data('id'), 'g')
     $(this).before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
+    $('.client_id').select2
+      ajax: {
+        url: '/clients'
+        data: (params) ->
+          {
+            term: params.term
+          }
+        dataType: 'json'
+        delay: 500
+        processResults: (data, params) ->
+          {
+            results: _.map(data, (el) ->
+              {
+                id: el.id
+                name: "#{el.name}, #{el.email}"
+              }
+            )
+          }
+        cache: true
+      }
+      escapeMarkup: (markup) -> markup
+      minimumInputLength: 2
+      templateResult: (item) -> item.name
+      templateSelection: (item) -> item.name
+    $('.listing_id').select2
+      ajax: {
+        url: '/listings'
+        data: (params) ->
+          {
+            term: params.term
+          }
+        dataType: 'json'
+        delay: 500
+        processResults: (data, params) ->
+          {
+            results: _.map(data, (el) ->
+              {
+                id: el.id
+                name: "#{el.address}"
+              }
+            )
+          }
+        cache: true
+      }
+      escapeMarkup: (markup) -> markup
+      minimumInputLength: 2
+      templateResult: (item) -> item.name
+      templateSelection: (item) -> item.name
+  
+  # #client select field in listing form
+  # $('.client_id').select2
+  #   ajax: {
+  #     url: '/clients'
+  #     data: (params) ->
+  #       {
+  #         term: params.term
+  #       }
+  #     dataType: 'json'
+  #     delay: 500
+  #     processResults: (data, params) ->
+  #       {
+  #         results: _.map(data, (el) ->
+  #           {
+  #             id: el.id
+  #             name: "#{el.name}, #{el.email}"
+  #           }
+  #         )
+  #       }
+  #     cache: true
+  #   }
+  #   escapeMarkup: (markup) -> markup
+  #   minimumInputLength: 2
+  #   templateResult: (item) -> item.name
+  #   templateSelection: (item) -> item.name

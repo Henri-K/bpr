@@ -8,38 +8,48 @@
       
     %table.table.borderless
     
-      - fieldlist = [["Beds", @listing.beds,""],
-                     ["Baths", @listing.baths,""],
-                     ["Parking", @listing.parking, ""],
-                     ["Square footage", @listing.square_footage_str, ""],
-                     ["Year built", @listing.year_built_str, ""],
-                     ["Days on Market", @listing.days_on_market_str,""],
-                     ["Asking price", @listing.asking_price_str, ""],
-                     ["Price of Parking", @listing.parking_price_str, ""],
-                     ["Price with no parking", @listing.no_parking_price_str, ""],
-                     ["Price per Square Foot", @listing.price_per_sq_ft_str, "total"],
-                     ["Condo fees", @listing.condo_fees_str, ""],
-                     ["Property tax", @listing.property_tax_str, ""],
-                     ["Utility cost", @listing.utility_cost_str, ""],
-                     ["Mortgage Payment", @mortgage_payment, ""],
-                     ["Total Monthly Cost", @total_monthly_cost,"total"],
-                     ["Estimated Rental Amount", @listing.rent_amount_str, ""],
-                     ["Cash Flow", @cash_flow, "total"]]
-      - fieldlist.each do |label, value, class_str|
-        %tr{:class => "#{class_str}"}
-          %td 
-            = label
-          %td.text-right 
-            = value
+      - fieldlist = [["Beds", @listing.beds,"", true],
+                     ["Baths", @listing.baths,"", true],
+                     ["Parking", @listing.parking, "", true],
+                     ["Square footage", @listing.square_footage_str, "", @listing.square_footage > 0],
+                     ["Lot Size", @listing.lot_size_str, "", @listing.lot_size > 0],
+                     ["Year built", @listing.year_built_str, "", @listing.year_built || 0 > 0],
+                     ["Days on Market", @listing.days_on_market_str,"", true],
+                     ["Asking price", @listing.asking_price_str, "", true],
+                     ["Price of Parking", @listing.parking_price_str, "", @listing.parking_price > 0],
+                     ["Price with no parking", @listing.no_parking_price_str, "", @listing.parking_price > 0],
+                     ["Price per Square Foot", @listing.price_per_sq_ft_str, "total", @listing.square_footage > 0],
+                     ["Condo fees", @listing.condo_fees_str, "", @listing.condo_fees > 0],
+                     ["Property tax", @listing.property_tax_str, "", @listing.property_tax > 0],
+                     ["Utility cost", @listing.utility_cost_str, "", @listing.utility_cost > 0],
+                     ["Mortgage Payment", @mortgage_payment, "", true],
+                     ["Total Monthly Cost", @total_monthly_cost,"total", true],
+                     ["Estimated Rental Amount", @listing.rent_amount_str, "", @listing.rent_amount > 0],
+                     ["Cash Flow", @cash_flow, "total", true]]
+      - fieldlist.each do |label, value, class_str, visable|
+        - if visable
+          %tr{:class => "#{class_str}"}
+            %td 
+              = label 
+              - if label == "Mortgage Payment"
+                %a{"data-toggle" => "tooltip", :href => "#", :title => "#{@listing.mortgage_payment_info(@client)}"} ?
+            %td.text-right 
+              = value
+
   .col-md-8.col-xs-12.thumbnail
-    %div.listing-image-big
-      - @listing.pictures.each do |pic|
-        %div
-          %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
-    %div.listing-images
-      - @listing.pictures.each do |pic|
-        %div
-          %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
+    - if @listing.pictures.size > 0
+      %div.listing-image-big
+        - @listing.pictures.each do |pic|
+          %div
+            %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
+      %div.listing-images
+        - @listing.pictures.each do |pic|
+          %div
+            %img{:src => "#{pic.url}", :alt =>"#{pic.caption}"}
+
+    = @listing.description
+    
+    = render 'note/note_form_index'
   
 
 - unless @client
@@ -67,4 +77,7 @@
       centerMode: false,
       focusOnSelect: true
     });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip({html: true})
+    })
   });

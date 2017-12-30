@@ -1,0 +1,30 @@
+
+- if @note
+  = form_for @note do |f|
+    - if @note.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@note.errors.count, "error")} prohibited this note from being saved:"
+        %ul
+          - @note.errors.full_messages.each do |message|
+            %li= message
+  
+    .form-group
+      = f.label "Notes"
+      = f.text_area :description, class: "form-control", placeholder: "Add a note about this listing."
+    
+    = f.hidden_field :showing_id
+  
+    .actions
+      = f.submit 'Save', class: "btn btn-default"
+    
+- @notes.each do | n |
+  - if n.id
+    .row 
+      .col-md-12.col-xs-12
+        = (n.user.try(:email) || link_to(n.showing.client.name, client_listing_path(client_id: n.showing.client_id, id: n.showing.listing_id))) + ' posted ' 
+        = time_ago_in_words(n.created_at) + ' ago' + ' '
+        = link_to '(delete)', n, method: :delete, data: { confirm: 'Are you sure?' } unless n.user_id
+        .well.well-sm
+          = n.description
+        
+  

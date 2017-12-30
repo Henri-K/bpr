@@ -6,6 +6,10 @@ class Listing < ActiveRecord::Base
                                   :allow_destroy => true, 
                                   :reject_if => :all_blank
                                   
+    accepts_nested_attributes_for :showings, 
+                                :allow_destroy => true, 
+                                :reject_if => :all_blank
+                                  
     after_initialize :init
     
     # Queries
@@ -31,14 +35,15 @@ class Listing < ActiveRecord::Base
       self.beds ||= 0   
       self.baths ||= 0 
       self.parking ||= 0
-      self.square_footage ||= 0.0
+      self.square_footage ||= 0
       self.listing_date ||= Date.today
-      self.asking_price ||= 0.0
-      self.parking_price ||= 0.0
-      self.condo_fees ||= 0.0
-      self.property_tax ||= 0.0
-      self.utility_cost ||= 0.0
-      self.rent_amount ||= 0.0
+      self.asking_price ||= 0
+      self.parking_price ||= 0
+      self.condo_fees ||= 0
+      self.property_tax ||= 0
+      self.utility_cost ||= 0
+      self.rent_amount ||= 0
+      self.lot_size ||= 0
     end
     
     def self.import_key_rename
@@ -122,6 +127,22 @@ class Listing < ActiveRecord::Base
         ((numerator/denominator) * net_principle).round(2)
     end
     
+    def mortgage_payment_info(client)
+        client = set_client_defaults(client)
+        down_payment = 
+        if client["down_payment_type"] == "dollars"
+            client["down_payment"]
+        else
+            self.asking_price * (client["down_payment"]/100.0)
+        end
+        "Asking Price: #{self.asking_price_str} </br>
+         Down Payment: $#{down_payment} </br>
+         Principle: $#{self.asking_price - down_payment} </br>
+         APR: #{client["interest_rate"].to_s}% </br>
+         Amortorization: #{client["amort"].to_s} Years"
+         
+    end
+    
     def total_monthly_cost(client)
         (utility_cost + condo_fees + property_tax + mortgage_payment(client)).round(2)
     end
@@ -141,6 +162,10 @@ class Listing < ActiveRecord::Base
     
     def square_footage_str
         square_footage.to_s + ' SQFT'
+    end
+    
+    def lot_size_str
+        lot_size.to_s + ' SQFT'
     end
     
     def days_on_market_str

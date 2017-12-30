@@ -1,1 +1,4 @@
-json.array! @listings, partial: 'listings/listing', as: :listing
+json.array! @listings do |l|
+  json.id l.id
+  json.address l.address
+end

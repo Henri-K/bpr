@@ -7,7 +7,7 @@
   .col-md-6.col-sx-12
     = form_tag listings_path, :method => :get, class: "form-inline" do
       .form-group
-        = text_field_tag :search, params[:search], class: "form-control"
+        = text_field_tag :term, params[:term], class: "form-control"
       = submit_tag "search", :name => nil, class: "btn btn-default"
   .col-md-6.col-sx-12
     = form_tag import_listings_path, multipart: true, class: "form-inline" do 

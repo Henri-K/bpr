@@ -5,16 +5,25 @@ class ListingsController < ApplicationController
   # GET /listings
   # GET /listings.json
   def index
-    @listings = Listing.search(params[:search]).includes(:pictures).order(params[:order]).paginate(:page => params[:page], :per_page => 30)
+    @listings = Listing.search(params[:term]).includes(:pictures).order(params[:order]).paginate(:page => params[:page], :per_page => 30)
   end
 
   # GET /listings/1
   # GET /listings/1.json
   def show
     @client = Client.find(params[:client_id]) if params[:client_id]
+    authenticate_user! unless @client
     @mortgage_payment = @listing.mortgage_payment_str(@client)
     @total_monthly_cost = @listing.total_monthly_cost_str(@client)
     @cash_flow = @listing.cash_flow_str(@client)
+    if @client
+      @showing = Showing.find_by(client_id: @client.id, listing_id: @listing.id)
+      @notes = @showing.notes
+      @note = @showing.notes.new
+    elsif current_user 
+      @notes = Note.joins(:showing).where('showings.listing_id' => @listing.id)
+    end
+      
   end
 
   # GET /listings/new
@@ -64,6 +73,8 @@ class ListingsController < ApplicationController
   # DELETE /listings/1
   # DELETE /listings/1.json
   def destroy
+    @listing.showings.destroy_all
+    @listing.pictures.destroy_all
     @listing.destroy
     respond_to do |format|
       format.html { redirect_to listings_url, notice: 'Listing was successfully destroyed.' }
@@ -79,6 +90,6 @@ class ListingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_params
-      params.require(:listing).permit(:address, :beds, :baths, :parking, :square_footage, :year_built, :listing_date, :asking_price, :parking_price, :condo_fees, :property_tax, :utility_cost, :rent_amount, pictures_attributes: [:id, :url, :caption, :_destroy])
+      params.require(:listing).permit(:address, :beds, :baths, :parking, :square_footage, :year_built, :listing_date, :asking_price, :parking_price, :condo_fees, :property_tax, :utility_cost, :rent_amount, :lot_size, :description, pictures_attributes: [:id, :url, :caption, :_destroy], showings_attributes: [:id, :client_id, :date, :compare, :_destroy])
     end
 end

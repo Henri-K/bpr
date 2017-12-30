@@ -1,6 +1,10 @@
 %fieldset
   .field
     = f.date_select :date 
-    = f.collection_select :listing_id, Listing.all, :id, :address, :prompt => "Select an Listing"
+    - if f.object.listing
+      = f.object.listing.address
+    - else
+      = f.select :listing_id, options_for_select([["Select a listing", 1]]), {}, {class: "listing_id"}
+    //= f.collection_select :listing_id, Listing.all, :id, :address, :prompt => "Select an Listing"
     = f.hidden_field :_destroy
     = link_to "remove", '#', class: "remove_fields"

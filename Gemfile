@@ -29,6 +29,11 @@ gem 'faker'
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
 
+# search and autocomplete
+gem 'pg_search'
+gem 'select2-rails'
+gem 'underscore-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  post 'notes' => 'note#create'
+  delete 'note/:id' => 'note#destroy', as: 'note'
+
   resources :clients do 
     post '/showings/:showing_id/compare' => 'clients#compare', as: 'compare'
     post '/showings/:showing_id/thumb' => 'clients#thumb', as: 'thumb'

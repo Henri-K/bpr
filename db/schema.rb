@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171104232052) do
+ActiveRecord::Schema.define(version: 20171210200646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,7 +55,20 @@ ActiveRecord::Schema.define(version: 20171104232052) do
     t.integer  "rent_amount"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.text     "description"
+    t.integer  "lot_size"
   end
+
+  create_table "notes", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.integer  "showing_id"
+    t.text     "description"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "notes", ["showing_id"], name: "index_notes_on_showing_id", using: :btree
+  add_index "notes", ["user_id"], name: "index_notes_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.uuid     "listing_id", null: false
@@ -100,4 +113,6 @@ ActiveRecord::Schema.define(version: 20171104232052) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "clients", "agents"
+  add_foreign_key "notes", "showings"
+  add_foreign_key "notes", "users"
 end

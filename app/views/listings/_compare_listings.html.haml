@@ -47,6 +47,8 @@
               - showings.each do |s|
                 %td 
                   = s.listing.send(attr,*params).to_s
+                  - if name == "Mortgage Payment"
+                    %a{"data-toggle" => "tooltip", :href => "#", :title => "#{s.listing.mortgage_payment_info(@client)}"} ?
 
 .row.text-center
   = will_paginate showings, renderer: BootstrapPagination::Rails
