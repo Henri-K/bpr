@@ -1,20 +1,17 @@
-%h1.page-header 
-  %span
-    Listings
-    = link_to 'New Listing', new_listing_path, class: "btn btn-default"
-
-.row  
+= render layout: 'layouts/content_heading', locals: { title: 'Listings' } do
+  = link_to 'New Listing', new_listing_path, class: 'btn btn-primary'
+.row
   .col-md-6.col-sx-12
     = form_tag listings_path, :method => :get, class: "form-inline" do
       .form-group
         = text_field_tag :term, params[:term], class: "form-control"
       = submit_tag "search", :name => nil, class: "btn btn-default"
   .col-md-6.col-sx-12
-    = form_tag import_listings_path, multipart: true, class: "form-inline" do 
+    = form_tag import_listings_path, multipart: true, class: "form-inline" do
       .form-group
         = file_field_tag :file, class: "form-control"
       = submit_tag "Import", class: "form-group btn btn-default"
-      
+
 .row.text-center
   = will_paginate @listings, renderer: BootstrapPagination::Rails
 
@@ -23,7 +20,6 @@
   %thead
     %tr
       - [["Address", "address"],
-         ["", nil],
          ["Bed", "beds"],
          ["Bath", "baths"],
          ["Park", "parking"],
@@ -42,8 +38,11 @@
   %tbody
     - @listings.each do |listing|
       %tr
-        %td= link_to truncate(listing.address).upcase, listing
-        %td= link_to 'Edit', edit_listing_path(listing)
+        %td
+          = link_to truncate(listing.address).upcase, listing
+          .pull-right
+            = link_to 'Edit', edit_listing_path(listing)
+            = link_to 'X', listing, method: :delete, data: { confirm: 'Are you sure?' }
         %td= listing.beds
         %td= listing.baths
         %td= listing.parking
@@ -53,9 +52,6 @@
         %td= listing.fees_count.to_s + "/3"
         %td= listing.pictures.size
         %td= listing.rent_amount_str
-        %td= link_to 'X', listing, method: :delete, data: { confirm: 'Are you sure?' }
 
 .row.text-center
   = will_paginate @listings, renderer: BootstrapPagination::Rails
-
-

@@ -1,12 +1,9 @@
-%h1.page-header 
-  %span 
-    Clients
-    = link_to 'New Client', new_client_path, class: "btn btn-default"
+= render layout: 'layouts/content_heading', locals: { title: 'Client list' } do
+  = link_to 'New Client', new_client_path, class: "btn btn-primary"
 
 = form_tag clients_path, :method => :get, class: "form-inline" do
   .form-group
     = text_field_tag :term, params[:term], class: "form-control"
   = submit_tag "search", :name => nil, class: "btn btn-default"
-
 
 = render 'client_list', clients: @clients
