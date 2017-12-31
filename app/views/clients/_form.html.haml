@@ -1,35 +1,48 @@
 = form_for @client do |f|
-  - if @client.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
-      %ul
-        - @client.errors.full_messages.each do |message|
-          %li= message
+  .row.col-md-6
+    %h3= params[:action].capitalize + " client" + (@client.name ? " - " + @client.name : "")
+    - if @client.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
+        %ul
+          - @client.errors.full_messages.each do |message|
+            %li= message
+  
+    .form-group
+      = f.label :name, "Full Name*", class: 'col-sm-4 control-label'
+      .col-sm-8
+        = f.text_field :name, class: 'form-control input-sm'
+    .form-group
+      = f.label :email, "Email address", class: 'col-sm-4 control-label'
+      .col-sm-8
+        = f.text_field :email, class: 'form-control input-sm'
+    .form-group
+      = f.label :down_payment, class: 'col-sm-4 control-label'
+      .col-sm-6
+        = f.number_field :down_payment, class: 'form-control input-sm'
+      .col-sm-2
+        = f.select :down_payment_type, options_for_select([["$", "dollars"],["%", "percent"]], @client.down_payment_type), {}, {class: 'form-control input-sm'}
+    .form-group
+      = f.label :interest_rate, class: 'col-sm-4 control-label'
+      .col-sm-6
+        = f.number_field :interest_rate, :step => 0.01, class: 'form-control input-sm'
+      .col-sm-2
+        \%
+    .form-group
+      = f.label :amort, "Amortorization", class: 'col-sm-4 control-label'
+      .col-sm-8
+        = f.number_field :amort, class: 'form-control input-sm'
+    .form-group
+      = f.label "Agent", class: 'col-sm-4 control-label'
+      .col-sm-8
+        = f.collection_select :agent_id, Agent.all, :id, :name, {:prompt => "Select an Agent"}, {class: 'form-control input-sm'}
+    .form-group
+      .col-sm-12.text-right
+        = f.submit 'Save Client', class: "btn btn-default"
+  .col-md-6
+    %h3 Showings
+    .btn.btn-default
+      = link_to_add_fields "Add Showing", f, :showings
+    = f.fields_for :showings do |ff|
+      = render 'showing_fields', f: ff
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :down_payment
-    = f.number_field :down_payment
-    = f.select :down_payment_type, options_for_select([["$", "dollars"],["%", "percent"]], @client.down_payment_type)
-  .field
-    = f.label :interest_rate 
-    = f.number_field :interest_rate, :step => 0.01
-    \%
-  .field
-    = f.label :amort, "Amortorization"
-    = f.number_field :amort
-  .field
-    = f.label "Agent"
-    = f.collection_select :agent_id, Agent.all, :id, :name, :prompt => "Select an Agent"
-  %h3  
-    Showings
-  = link_to_add_fields "Add Showing", f, :showings
-  = f.fields_for :showings do |ff|
-    = render 'showing_fields', f: ff
-  .actions
-    = f.submit 'Save'

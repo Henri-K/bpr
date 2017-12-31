@@ -1,0 +1,26 @@
+.navbar-fixed-top {
+  box-shadow: 0 1px 5px 0px rgba(0,0,0,.2);
+}
+
+.navbar-brand {
+  padding: 0;
+
+  img {
+    max-height: 100%;
+  }
+}
+
+.navbar-nav {
+  a {
+    font-family: 'Avenir Medium';
+    font-weight: 100;//$headings-font-weight;
+    letter-spacing: 1.4pt;
+  }
+}
+
+.navbar {
+  &#secondary_nav {
+    margin-bottom: 0;
+    min-height: auto !important;
+  }
+}

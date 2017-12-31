@@ -1,8 +1,16 @@
-.row
-  = render 'agent', agent: @agent
-
-.row    
+.row.thumbnail
+  = render layout: 'layouts/content_heading', locals: { title: 'Agent Details' } do
+    = link_to 'Edit', @agent, class: 'btn btn-primary'
+    = link_to 'Delete', @agent, method: :delete, class: 'btn btn-primary', data: { confirm: 'Are you sure?' }
+  .col-xs-12
+    .row
+      .col-xs-12.col-md-3
+        %img.img-circle{:src => "#{@agent.try(:avatar).blank? ? image_url('user_placeholder.jpg') : @agent.try(:avatar) }", :alt =>"#{@agent.try(:name)}"}
+      .col-xs-12.col-md-9
+        %p
+          %b= @agent.name
+        - unless @agent.try(:email).blank?
+          %p= t('email', email: @agent.try(:email))
+        - unless @agent.try(:phone).blank?
+          %p= t('phone', phone: @agent.try(:phone))
   = render 'clients/client_list', clients: @clients
-
-
-

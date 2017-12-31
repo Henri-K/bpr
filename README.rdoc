@@ -29,5 +29,5 @@ Please feel free to use a different markup language if you do not plan to run
 
 Cloud 9 Environment commands
 
-rvm use 2.2.2
+rvm use 2.4.2
 sudo service postgresql start
