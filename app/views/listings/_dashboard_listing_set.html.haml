@@ -25,14 +25,18 @@
       - else
         = attr_label + l.send(attr)
       = button_to client_compare_path(client_id: @client.id, showing_id: s.id, compare: true),  remote: true, class: "btn btn-default compare #{s.compare ? 'hide-div' : ''}", id: "compare_#{s.id}" do
-        %span.glyphicon.glyphicon-ok
+        Compare 
+        //%span.glyphicon.glyphicon-ok
       = button_to client_compare_path(client_id: @client.id, showing_id: s.id, compare: false), remote: true, class: "btn btn-default compare #{s.compare ? '' : 'hide-div'}", id: "compare_#{s.id}" do
-        %span.glyphicon.glyphicon-ok
-      = button_to "Thumbup", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbup: true),  remote: true, class: "btn btn-default compare #{s.thumbup ? 'hide-div' : ''}", id: "thumbup_#{s.id}"
-      = button_to "unThumbup", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbup: false), remote: true, class: "btn btn-default compare #{s.thumbup ? '' : 'hide-div'}", id: "thumbup_#{s.id}"
+        unCompare 
+        //%span.glyphicon.glyphicon-ok
+      = button_to "ThumbUp", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbup: true),  remote: true, class: "btn btn-default compare #{s.thumbup ? 'hide-div' : ''}", id: "thumbup_#{s.id}"
+      = button_to "unThumbUp", client_thumb_path(client_id: @client.id, showing_id: s.id, thumbup: false), remote: true, class: "btn btn-default compare #{s.thumbup ? '' : 'hide-div'}", id: "thumbup_#{s.id}"
       = button_to client_thumb_path(client_id: @client.id, showing_id: s.id, thumbdown: true),  remote: true, class: "btn btn-default compare #{s.thumbdown ? 'hide-div' : ''}", id: "thumbdown_#{s.id}" do
-        %span.glyphicon.glyphicon-ok
+        ThumpDown
+        //%span.glyphicon.glyphicon-ok
       = button_to client_thumb_path(client_id: @client.id, showing_id: s.id, thumbdown: false), remote: true, class: "btn btn-default compare #{s.thumbdown ? '' : 'hide-div'}", id: "thumbdown_#{s.id}" do
-        %span.glyphicon.glyphicon-ok
+        unThumbDown
+        //%span.glyphicon.glyphicon-ok
       %br
       %br

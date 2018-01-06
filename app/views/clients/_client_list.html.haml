@@ -6,27 +6,25 @@
     %thead
       %tr
         %th Name
-        -# %th Edit
+        %th Edit
         %th # of Showings
         %th Earliest Showing
         %th Last Showing
         %th Average Listing Price
-        -# %th Delete
+        %th Delete
     %tbody
       - clients.each do |c|
 
         %tr
           %td= link_to c.name, c, class: 'btn'
-          -# %td
-          -#   = link_to 'Edit', edit_client_path(c)
+          %td= link_to 'Edit', edit_client_path(c)
           %td= c.showings.size
           %td= c.showings.try(:last).try(:date)
           %td= c.showings.try(:first).try(:date)
           %td
             - if c.showings.size > 0
               = number_to_currency((c.showings.inject(0) { |sum, showing| sum + showing.listing.asking_price } / c.showings.size), {precision: 0})
-          -# %td
-        -#   = link_to 'X', c, method: :delete, data: { confirm: 'Are you sure?' }
+          %td= link_to 'X', c, method: :delete, data: { confirm: 'Are you sure?' }
 
 .row.text-center
   = will_paginate clients, renderer: BootstrapPagination::Rails

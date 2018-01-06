@@ -14,7 +14,7 @@ class ClientsController < ApplicationController
     @showings = @client.showings.includes(listing: :pictures)
     @showings = @showings.order("listings." + params[:order]) if params[:order]
     @showings = @showings.where('showings.compare' => true).paginate(:page => params[:page], :per_page => 3) if (params[:view] == "compare")
-    @showings = @showings.paginate(:page => params[:page], :per_page => 3) if (params[:view] == "all")
+    @showings = @showings.paginate(:page => params[:page], :per_page => 21) if (params[:view] == "all")
     
     @dashboard_listing_set = dashboard_listing_set(@showings, @client) unless params[:view]
   end
